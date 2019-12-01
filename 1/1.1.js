@@ -8,24 +8,15 @@
 // For a mass of 1969, the fuel required is 654.
 // For a mass of 100756, the fuel required is 33583.
 
-const { textFileToArray } = require("../helpers");
-
-const fuelCaluclator = mass => Math.floor(mass / 3) - 2;
-const moduleMassesToFuel = moduleMasses => moduleMasses.map(fuelCaluclator);
+const fuelCalculator = mass => Math.floor(mass / 3) - 2;
+const moduleMassesToFuel = moduleMasses => moduleMasses.map(fuelCalculator);
 const counterUpper = numbers => numbers.reduce((acc, n) => acc + n, 0);
 
 const fuelCounterUpper = moduleMasses =>
   counterUpper(moduleMassesToFuel(moduleMasses));
 
-const main = async () => {
-  const moduleMasses = await textFileToArray("1/1.1.data.txt");
-  console.log(fuelCounterUpper(moduleMasses));
-};
-
-main();
-
 module.exports = {
-  fuelCaluclator,
+  fuelCalculator,
   moduleMassesToFuel,
   counterUpper,
   fuelCounterUpper
