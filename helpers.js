@@ -3,9 +3,9 @@ const { promisify } = require("util");
 
 const readFileAsync = promisify(fs.readFile);
 
-const textFileToArray = async filename => {
+const textFileToArray = async (filename, separator = "\n") => {
   const data = await readFileAsync(filename);
-  return data.toString().split("\n");
+  return data.toString().split(separator);
 };
 
 module.exports = {

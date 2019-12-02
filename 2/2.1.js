@@ -1,8 +1,8 @@
 const add = (n, m) => n + m;
 const multiply = (x, y) => x * y;
 
-const interpret = array => {
-  return array.reduce((acc, number, index) => {
+const interpret = array =>
+  array.reduce((acc, number, index) => {
     if (index % 4 !== 0) {
       return acc;
     }
@@ -20,8 +20,6 @@ const interpret = array => {
 
     if (optCode === 1) {
       result = add(acc[positionOne], acc[positionTwo]);
-      acc[writePosition] = result;
-      return acc;
     }
 
     if (optCode === 2) {
@@ -31,7 +29,6 @@ const interpret = array => {
     acc[writePosition] = result;
     return acc;
   }, array);
-};
 
 module.exports = {
   add,
