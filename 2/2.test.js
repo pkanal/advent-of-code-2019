@@ -1,4 +1,5 @@
 const { add, multiply, interpret } = require("./2.1");
+const { cartesian } = require("./2.2");
 
 describe("Operations", () => {
   test("addition", () => {
@@ -32,5 +33,25 @@ describe("Interpret Opt Code", () => {
       0,
       99
     ]);
+  });
+});
+
+describe("Cartesian Product", () => {
+  test("two arrays", () => {
+    const one = [1, 2, 3];
+    const two = [1, 2, 3];
+    const result = [
+      [1, 1],
+      [1, 2],
+      [1, 3],
+      [2, 1],
+      [2, 2],
+      [2, 3],
+      [3, 1],
+      [3, 2],
+      [3, 3]
+    ];
+
+    expect(cartesian(one, two)).toEqual(result);
   });
 });
