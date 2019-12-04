@@ -36,6 +36,7 @@ const getCoordinates = path =>
     [[0, 0]]
   );
 
+// TODO: make this better than O(n^2) :grimacing:
 const findIntersections = (first, second) => {
   const firstStrings = first.map(e => e.join(","));
   const secondStrings = second.map(e => e.join(","));
