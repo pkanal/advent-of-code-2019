@@ -7,49 +7,44 @@
 // 223450 does not meet these criteria (decreasing pair of digits 50).
 // 123789 does not meet these criteria (no double).
 
+const hasAdjacentDigits = passwordAsArray =>
+  passwordAsArray.reduce((acc, val, index, array) => {
+    if (acc === true) {
+      return acc;
+    }
+    if (index === 0) {
+      return false;
+    }
+
+    return val === array[index - 1];
+  }, false);
+
+const hasNoDecreasingDigits = passwordAsArray =>
+  passwordAsArray.reduce((acc, val, index, array) => {
+    if (index === 0) {
+      return null;
+    }
+
+    if (acc === false) {
+      return acc;
+    }
+    return val >= array[index - 1];
+  }, null);
+
 const isValidPassword = password => {
   const passwordAsArray = password
     .toString()
     .split("")
     .map(s => parseInt(s, 10));
-  // two adjacent digits are the same
-  const hasTwoSameAdjacentDigits = passwordAsArray.reduce(
-    (acc, val, index, array) => {
-      if (acc === true) {
-        return acc;
-      }
-      if (index === 0) {
-        return false;
-      }
-
-      return val === array[index - 1];
-    },
-    false
-  );
-
-  // has no decreasing digits
-  const hasNoDecreasingDigits = passwordAsArray.reduce(
-    (acc, val, index, array) => {
-      if (index === 0) {
-        return null;
-      }
-
-      if (acc === false) {
-        return acc;
-      }
-      return val >= array[index - 1];
-    },
-    null
-  );
 
   return (
     passwordAsArray.length === 6 &&
-    hasTwoSameAdjacentDigits &&
-    hasNoDecreasingDigits
+    hasAdjacentDigits(passwordAsArray) &&
+    hasNoDecreasingDigits(passwordAsArray)
   );
 };
 
-const getPossiblePasswordsInRange = (min, max) => {
+const getPossiblePasswordsInRange = (min, max, validationFn) => {
   const range = (start, end, length = end - start) =>
     Array.from({ length }, (_, i) => start + i);
 
@@ -57,7 +52,7 @@ const getPossiblePasswordsInRange = (min, max) => {
 
   return passwords.reduce((possiblePasswordsCount, password) => {
     // console.log(password, isValidPassword(password));
-    return isValidPassword(password)
+    return validationFn(password)
       ? possiblePasswordsCount + 1
       : possiblePasswordsCount;
   }, 0);
@@ -65,5 +60,6 @@ const getPossiblePasswordsInRange = (min, max) => {
 
 module.exports = {
   isValidPassword,
-  getPossiblePasswordsInRange
+  getPossiblePasswordsInRange,
+  hasNoDecreasingDigits
 };
