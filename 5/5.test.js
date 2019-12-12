@@ -129,7 +129,7 @@ describe("Addition and multiplication operations", () => {
       memory: [1002, 4, 3, 4, 99],
       nextInstructionIndex: -1,
       output: null,
-      input: null
+      inputIndex: 0
     });
   });
 
@@ -138,57 +138,62 @@ describe("Addition and multiplication operations", () => {
       memory: [2, 0, 0, 0, 99],
       nextInstructionIndex: -1,
       output: null,
-      input: null
+      inputIndex: 0
     });
   });
 
   test("input / output", () => {
-    expect(interpret([3, 0, 4, 0, 99], 1)).toEqual({
+    expect(interpret([3, 0, 4, 0, 99], [1])).toEqual({
       memory: [1, 0, 4, 0, 99],
       nextInstructionIndex: -1,
       output: 1,
-      input: 1
+      inputIndex: 1
     });
   });
 
   test("jump if true", () => {
     expect(
-      interpret([3, 3, 1105, -1, 9, 1101, 0, 0, 12, 4, 12, 99, 1], 0).output
+      interpret([3, 3, 1105, -1, 9, 1101, 0, 0, 12, 4, 12, 99, 1], [0]).output
     ).toEqual(0);
     expect(
-      interpret([3, 3, 1105, -1, 9, 1101, 0, 0, 12, 4, 12, 99, 1], 1000).output
+      interpret([3, 3, 1105, -1, 9, 1101, 0, 0, 12, 4, 12, 99, 1], [1000])
+        .output
     ).toEqual(1);
   });
 
   test("jump if false", () => {
     expect(
-      interpret([3, 12, 6, 12, 15, 1, 13, 14, 13, 4, 13, 99, -1, 0, 1, 9], 0)
+      interpret([3, 12, 6, 12, 15, 1, 13, 14, 13, 4, 13, 99, -1, 0, 1, 9], [0])
         .output
     ).toEqual(0);
     expect(
-      interpret([3, 12, 6, 12, 15, 1, 13, 14, 13, 4, 13, 99, -1, 0, 1, 9], 1000)
-        .output
+      interpret(
+        [3, 12, 6, 12, 15, 1, 13, 14, 13, 4, 13, 99, -1, 0, 1, 9],
+        [1000]
+      ).output
     ).toEqual(1);
   });
 
   test("less than (position mode)", () => {
-    expect(interpret([3, 9, 7, 9, 10, 9, 4, 9, 99, -1, 8], 4).output).toBe(1);
-    expect(interpret([3, 9, 7, 9, 10, 9, 4, 9, 99, -1, 8], 8).output).toBe(0);
+    expect(interpret([3, 9, 7, 9, 10, 9, 4, 9, 99, -1, 8], [4]).output).toBe(1);
+    expect(interpret([3, 9, 7, 9, 10, 9, 4, 9, 99, -1, 8], [8]).output).toBe(0);
   });
 
   test("less than (immediate mode)", () => {
-    expect(interpret([3, 3, 1107, -1, 8, 3, 4, 3, 99], 4).output).toBe(1);
-    expect(interpret([3, 3, 1107, -1, 8, 3, 4, 3, 99], 8).output).toBe(0);
+    expect(interpret([3, 3, 1107, -1, 8, 3, 4, 3, 99], [4]).output).toBe(1);
+    expect(interpret([3, 3, 1107, -1, 8, 3, 4, 3, 99], [8]).output).toBe(0);
   });
 
   test("equals (position mode)", () => {
-    expect(interpret([3, 9, 8, 9, 10, 9, 4, 9, 99, -1, 8], 8).output).toBe(1);
-    expect(interpret([3, 9, 8, 9, 10, 9, 4, 9, 99, -1, 8], -47).output).toBe(0);
+    expect(interpret([3, 9, 8, 9, 10, 9, 4, 9, 99, -1, 8], [8]).output).toBe(1);
+    expect(interpret([3, 9, 8, 9, 10, 9, 4, 9, 99, -1, 8], [-47]).output).toBe(
+      0
+    );
   });
 
   test("equals (immediate mode)", () => {
-    expect(interpret([3, 3, 1108, -1, 8, 3, 4, 3, 99], 8).output).toBe(1);
-    expect(interpret([3, 3, 1108, -1, 8, 3, 4, 3, 99], -47).output).toBe(0);
+    expect(interpret([3, 3, 1108, -1, 8, 3, 4, 3, 99], [8]).output).toBe(1);
+    expect(interpret([3, 3, 1108, -1, 8, 3, 4, 3, 99], [-47]).output).toBe(0);
   });
 
   test("larger example", () => {
@@ -243,7 +248,7 @@ describe("Addition and multiplication operations", () => {
           98,
           99
         ],
-        -5
+        [-5]
       ).output
     ).toBe(999);
     expect(
@@ -297,7 +302,7 @@ describe("Addition and multiplication operations", () => {
           98,
           99
         ],
-        8
+        [8]
       ).output
     ).toBe(1000);
     expect(
@@ -351,7 +356,7 @@ describe("Addition and multiplication operations", () => {
           98,
           99
         ],
-        39482
+        [39482]
       ).output
     ).toBe(1001);
   });

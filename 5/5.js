@@ -116,7 +116,7 @@ const parseOpCode = opCode => {
   }
 };
 
-const interpret = (code, input = null) =>
+const interpret = (code, inputs = []) =>
   code.reduce(
     (acc, value, i) => {
       if (i !== acc.nextInstructionIndex || acc.nextInstructionIndex === -1) {
@@ -163,9 +163,10 @@ const interpret = (code, input = null) =>
         }
         case INSTRUCTIONS.INPUT: {
           const writePosition = acc.memory[i + 1];
-          acc.memory[writePosition] = input;
+          acc.memory[writePosition] = inputs[acc.inputIndex];
           return {
             ...acc,
+            inputIndex: acc.inputIndex + 1,
             memory: acc.memory,
             nextInstructionIndex: i + nextInstruction
           };
@@ -257,7 +258,7 @@ const interpret = (code, input = null) =>
     },
     {
       memory: code,
-      input,
+      inputIndex: 0,
       output: null,
       nextInstructionIndex: 0
     }
