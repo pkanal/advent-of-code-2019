@@ -1,18 +1,5 @@
 const { findParents, countOrbits, parseOrbitData } = require("./6.1");
-
-`
-COM)B
-B)C
-C)D
-D)E
-E)F
-B)G
-G)H
-D)I
-E)J
-J)K
-K)L
-`;
+const { calculateOrbitalTransfers } = require("./6.2");
 
 describe("parse raw data", () => {
   const rawData = [
@@ -91,5 +78,64 @@ describe("count parent orbits (direct and indirect)", () => {
 
   test("example one", () => {
     expect(countOrbits(rawData)).toBe(42);
+  });
+});
+
+describe("calculate orbital transfers", () => {
+  test("you to santa (one)", () => {
+    const rawData = [
+      "COM)B",
+      "B)C",
+      "C)D",
+      "D)E",
+      "E)F",
+      "B)G",
+      "G)H",
+      "D)I",
+      "E)J",
+      "J)K",
+      "K)L",
+      "K)YOU",
+      "I)SAN"
+    ];
+    expect(calculateOrbitalTransfers("YOU", "SAN", rawData)).toBe(4);
+  });
+
+  test("you to santa (two)", () => {
+    const rawData = [
+      "COM)B",
+      "B)C",
+      "C)D",
+      "D)E",
+      "E)F",
+      "B)G",
+      "G)H",
+      "D)I",
+      "E)J",
+      "J)K",
+      "K)L",
+      "F)YOU",
+      "I)SAN"
+    ];
+    expect(calculateOrbitalTransfers("YOU", "SAN", rawData)).toBe(3);
+  });
+
+  test("you to santa (two)", () => {
+    const rawData = [
+      "COM)B",
+      "B)C",
+      "C)D",
+      "D)E",
+      "E)F",
+      "B)G",
+      "G)H",
+      "D)I",
+      "E)J",
+      "J)K",
+      "K)L",
+      "K)YOU",
+      "H)SAN"
+    ];
+    expect(calculateOrbitalTransfers("YOU", "SAN", rawData)).toBe(7);
   });
 });
